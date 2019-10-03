@@ -7,15 +7,6 @@
 FROM python:3.7-slim-stretch
 LABEL maintainer="Puckel_"
 
-# Install ODBC-driver 17
-RUN apt-get update \
-        && apt-get install -y curl apt-transport-https gnupg2 \
-        && curl https://packages.microsoft.com/keys/microsoft.asc | apt-key add - \
-        && curl https://packages.microsoft.com/config/debian/9/prod.list > /etc/apt/sources.list.d/mssql-release.list \
-        && apt-get update \
-        && ACCEPT_EULA=Y apt-get install -y msodbcsql17 mssql-tools \
-        && apt-get install unixodbc-dev -y
-
 # Never prompts the user for choices on installation/configuration of packages
 ENV DEBIAN_FRONTEND noninteractive
 ENV TERM linux
@@ -65,7 +56,6 @@ RUN set -ex \
     && pip install pyOpenSSL \
     && pip install ndg-httpsclient \
     && pip install pyasn1 \
-    && pip install pyodbc \
     && pip install apache-airflow[crypto,celery,postgres,hive,jdbc,mysql,ssh${AIRFLOW_DEPS:+,}${AIRFLOW_DEPS}]==${AIRFLOW_VERSION} \
     && pip install 'redis==3.2' \
     && if [ -n "${PYTHON_DEPS}" ]; then pip install ${PYTHON_DEPS}; fi \
