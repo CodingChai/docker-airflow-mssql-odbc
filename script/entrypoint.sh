@@ -9,6 +9,14 @@
 #        && ACCEPT_EULA=Y apt-get install -y msodbcsql17 mssql-tools \
 #        && apt-get install unixodbc-dev -y
 
+
+curl https://packages.microsoft.com/keys/microsoft.asc | apt-key add -
+curl https://packages.microsoft.com/config/debian/9/prod.list > /etc/apt/sources.list.d/mssql-release.list
+apt-get -y update
+ACCEPT_EULA=Y apt-get -y install msodbcsql17 mssql-tools
+apt-get -y install unixodbc-dev
+
+
 TRY_LOOP="20"
 
 : "${REDIS_HOST:="redis"}"
